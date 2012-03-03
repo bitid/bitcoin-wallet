@@ -37,7 +37,7 @@ import com.google.bitcoin.core.Transaction;
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.PaymentIntent;
 import de.schildbach.wallet.util.PaymentProtocol;
-import de.schildbach.wallet_test.R;
+import de.schildbach.wallet.R;
 
 /**
  * @author Andreas Schildbach
