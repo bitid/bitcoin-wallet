@@ -18,10 +18,12 @@
 package de.schildbach.wallet.ui;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
@@ -72,6 +74,8 @@ import com.google.bitcoin.core.AddressFormatException;
 import com.google.bitcoin.core.ECKey;
 import com.google.bitcoin.core.Transaction;
 import com.google.bitcoin.core.Wallet;
+import com.google.bitcoin.store.UnreadableWalletException;
+import com.google.bitcoin.store.WalletProtobufSerializer;
 
 import de.schildbach.wallet.Configuration;
 import de.schildbach.wallet.Constants;
@@ -369,7 +373,13 @@ public final class WalletActivity extends AbstractOnDemandServiceActivity
 				final String password = passwordView.getText().toString().trim();
 				passwordView.setText(null); // get rid of it asap
 
-				importPrivateKeys(file, password);
+				final boolean isProtobuf = file.getName().startsWith(Constants.WALLET_KEY_BACKUP_PROTOBUF + '.')
+						|| file.getName().startsWith(Constants.EXTERNAL_WALLET_BACKUP + '-');
+
+				if (isProtobuf)
+					restoreWalletFromProtobuf(file, password);
+				else
+					importPrivateKeysFromBase58(file, password);
 			}
 		});
 		dialog.setNegativeButton(R.string.button_cancel, new OnClickListener()
@@ -435,12 +445,13 @@ public final class WalletActivity extends AbstractOnDemandServiceActivity
 		// external storage
 		if (Constants.EXTERNAL_WALLET_BACKUP_DIR.exists() && Constants.EXTERNAL_WALLET_BACKUP_DIR.isDirectory())
 			for (final File file : Constants.EXTERNAL_WALLET_BACKUP_DIR.listFiles())
-				if (WalletUtils.KEYS_FILE_FILTER.accept(file) || Crypto.OPENSSL_FILE_FILTER.accept(file))
+				if (WalletUtils.BACKUP_FILE_FILTER.accept(file) || WalletUtils.KEYS_FILE_FILTER.accept(file)
+						|| Crypto.OPENSSL_FILE_FILTER.accept(file))
 					files.add(file);
 
 		// internal storage
 		for (final String filename : fileList())
-			if (filename.startsWith(Constants.WALLET_KEY_BACKUP_BASE58 + '.'))
+			if (filename.startsWith(Constants.WALLET_KEY_BACKUP_PROTOBUF + '.'))
 				files.add(new File(getFilesDir(), filename));
 
 		// sort
@@ -753,7 +764,58 @@ public final class WalletActivity extends AbstractOnDemandServiceActivity
 		return dialog.create();
 	}
 
-	private void importPrivateKeys(@Nonnull final File file, @Nonnull final String password)
+	private void restoreWalletFromProtobuf(@Nonnull final File file, @Nonnull final String password)
+	{
+		try
+		{
+			final InputStream is;
+			if (Crypto.OPENSSL_FILE_FILTER.accept(file))
+			{
+				final BufferedReader cipherIn = new BufferedReader(new InputStreamReader(new FileInputStream(file), Constants.UTF_8));
+				final StringBuilder cipherText = new StringBuilder();
+				while (true)
+				{
+					final String line = cipherIn.readLine();
+					if (line == null)
+						break;
+
+					cipherText.append(line);
+				}
+				cipherIn.close();
+
+				final byte[] plainText = Crypto.decryptBytes(cipherText.toString(), password.toCharArray());
+				is = new ByteArrayInputStream(plainText);
+			}
+			else
+			{
+				is = new FileInputStream(file);
+			}
+
+			final Wallet wallet = new WalletProtobufSerializer().readWallet(is);
+
+			application.replaceWallet(wallet);
+
+			config.disarmBackupReminder();
+
+			// XXX
+
+			log.info("restored wallet from: '" + file + "'");
+		}
+		catch (final IOException x)
+		{
+			// XXX
+
+			x.printStackTrace();
+		}
+		catch (final UnreadableWalletException x)
+		{
+			// XXX
+
+			x.printStackTrace();
+		}
+	}
+
+	private void importPrivateKeysFromBase58(@Nonnull final File file, @Nonnull final String password)
 	{
 		try
 		{
