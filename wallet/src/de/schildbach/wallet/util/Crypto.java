@@ -274,11 +274,11 @@ public class Crypto
 		}
 		catch (final InvalidCipherTextException x)
 		{
-			throw new IOException("Could not decrypt input string", x);
+			throw new IOException("Could not decrypt bytes", x);
 		}
 		catch (final DataLengthException x)
 		{
-			throw new IOException("Could not decrypt input string", x);
+			throw new IOException("Could not decrypt bytes", x);
 		}
 	}
 
