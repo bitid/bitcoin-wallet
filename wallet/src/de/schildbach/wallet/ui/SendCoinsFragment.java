@@ -86,6 +86,7 @@ import com.google.bitcoin.core.Wallet.BalanceType;
 import com.google.bitcoin.core.Wallet.SendRequest;
 
 import de.schildbach.wallet.AddressBookProvider;
+import de.schildbach.wallet.BitidIntent;
 import de.schildbach.wallet.Configuration;
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.ExchangeRatesProvider;
@@ -666,6 +667,11 @@ public final class SendCoinsFragment extends SherlockFragment
 						cannotClassify(input);
 					}
 
+                    @Override
+                    protected void handleBitidIntent(BitidIntent bitidIntent) {
+                        throw new UnsupportedOperationException();
+                    }
+                    
 					@Override
 					protected void error(final int messageResId, final Object... messageArgs)
 					{
@@ -1213,6 +1219,11 @@ public final class SendCoinsFragment extends SherlockFragment
 				cannotClassify(input);
 			}
 
+            @Override
+            protected void handleBitidIntent(BitidIntent bitidIntent) {
+                throw new UnsupportedOperationException();
+            }
+            
 			@Override
 			protected void error(final int messageResId, final Object... messageArgs)
 			{
@@ -1237,6 +1248,11 @@ public final class SendCoinsFragment extends SherlockFragment
 				throw new UnsupportedOperationException();
 			}
 
+            @Override
+            protected void handleBitidIntent(BitidIntent bitidIntent) {
+                throw new UnsupportedOperationException();
+            }
+            
 			@Override
 			protected void error(final int messageResId, final Object... messageArgs)
 			{
@@ -1265,6 +1281,11 @@ public final class SendCoinsFragment extends SherlockFragment
 					throw new UnsupportedOperationException();
 				}
 
+                @Override
+                protected void handleBitidIntent(BitidIntent bitidIntent) {
+                    throw new UnsupportedOperationException();
+                }
+                
 				@Override
 				protected void error(final int messageResId, final Object... messageArgs)
 				{

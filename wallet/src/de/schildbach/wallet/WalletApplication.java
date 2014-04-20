@@ -344,13 +344,16 @@ public class WalletApplication extends Application
 		addNewKeyToWallet();
 	}
 
-	public void addNewKeyToWallet()
+	public ECKey addNewKeyToWallet()
 	{
-		wallet.addKey(new ECKey());
+	    final ECKey key = new ECKey();
+		wallet.addKey(key);
 
 		backupWallet();
 
 		config.armBackupReminder();
+		
+		return key;
 	}
 
 	public void saveWallet()

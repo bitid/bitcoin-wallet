@@ -81,6 +81,15 @@
 	<string name="send_coins_error_msg">Problem sending coins!</string>
 	<string name="send_coins_options_empty">Empty wallet</string>
 	<string name="send_coins_address_context_clear_title">Enter new address</string>
+	<string name="bitid_activity_title">Authentication request</string>
+	<string name="bitid_callback_error_title">Error in auth callback</string>
+	<string name="bitid_auth_successfull">You have been successfully authenticated to the service.</string>
+	<string name="bitid_auth_processing">Signing in progress&#8230;</string>
+	<string name="bitid_fragment_auth_request_title">Authentication request</string>
+	<string name="bitid_fragment_auth_summary">You have received a request to authenticate on the following service :</string>
+	<string name="bitid_fragment_auth_address">A specific Bitcoin address has been created for this service, and you will be authenticated using the following public address :</string>
+	<string name="bitid_fragment_confirm_auth">Confirm</string>
+	<string name="bitid_fragment_cancel_auth">Cancel</string>
 	<string name="request_coins_activity_title">Request Bitcoins</string>
 	<string name="request_coins_fragment_amount_label">Requested amount (optional)</string>
 	<string name="request_coins_fragment_accept_bluetooth_payment">Accept payment via Bluetooth for more reliable processing</string>
@@ -160,6 +169,7 @@
 	<string name="input_parser_unverifyable_paymentrequest">Cannot verify payment request:\n%s</string>
 	<string name="input_parser_invalid_paymentrequest">Invalid payment request:\n%s</string>
 	<string name="input_parser_invalid_transaction">Invalid transaction:\n%s</string>
+	<string name="input_parser_invalid_bitid_uri">Invalid BitID URI:\n%s</string>
 	<string name="preferences_activity_title">Settings</string>
 	<string name="preferences_category_main">Preferences</string>
 	<string name="preferences_category_diagnostics">Diagnostics</string>
