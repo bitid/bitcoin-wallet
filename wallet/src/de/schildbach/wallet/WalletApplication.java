@@ -85,8 +85,6 @@ public class WalletApplication extends Application
 	private Wallet wallet;
 	private PackageInfo packageInfo;
 
-	private static final int KEY_ROTATION_VERSION_CODE = 135;
-
 	private static final Logger log = LoggerFactory.getLogger(WalletApplication.class);
 
 	@Override
@@ -129,18 +127,18 @@ public class WalletApplication extends Application
 		walletFile = getFileStreamPath(Constants.WALLET_FILENAME_PROTOBUF);
 
 		loadWalletFromProtobuf();
+
+		config.updateLastVersionCode(packageInfo.versionCode);
+
+		afterLoadWallet();
+	}
+
+	private void afterLoadWallet()
+	{
 		wallet.autosaveToFile(walletFile, 1, TimeUnit.SECONDS, new WalletAutosaveEventListener());
 
 		// clean up spam
 		wallet.cleanup();
-
-		config.updateLastVersionCode(packageInfo.versionCode);
-
-		if (config.versionCodeCrossed(packageInfo.versionCode, KEY_ROTATION_VERSION_CODE))
-		{
-			log.info("detected version jump crossing key rotation");
-			wallet.setKeyRotationTime(System.currentTimeMillis() / 1000);
-		}
 
 		ensureKey();
 
@@ -287,7 +285,7 @@ public class WalletApplication extends Application
 		}
 
 		// this check is needed so encrypted wallets won't get their private keys removed accidently
-		for (final ECKey key : wallet.getKeys())
+		for (final ECKey key : wallet.getImportedKeys())
 			if (key.getPrivKeyBytes() == null)
 				throw new Error("found read-only key, but wallet is likely an encrypted wallet from the future");
 	}
@@ -336,7 +334,7 @@ public class WalletApplication extends Application
 
 	private void ensureKey()
 	{
-		for (final ECKey key : wallet.getKeys())
+		for (final ECKey key : wallet.getImportedKeys())
 			if (!wallet.isKeyRotating(key))
 				return; // found
 
@@ -460,7 +458,7 @@ public class WalletApplication extends Application
 		final String selectedAddress = config.getSelectedAddress();
 
 		Address firstAddress = null;
-		for (final ECKey key : wallet.getKeys())
+		for (final ECKey key : wallet.getImportedKeys())
 		{
 			if (!wallet.isKeyRotating(key))
 			{
@@ -494,6 +492,17 @@ public class WalletApplication extends Application
 	{
 		// actually stops the service
 		startService(blockchainServiceResetBlockchainIntent);
+	}
+
+	public void replaceWallet(final Wallet newWallet)
+	{
+		resetBlockchain(); // implicitly stops blockchain service
+		wallet.shutdownAutosaveAndWait();
+
+		wallet = newWallet;
+		afterLoadWallet();
+
+		// XXX somehow start blockchain service again
 	}
 
 	public void broadcastTransaction(@Nonnull final Transaction tx)
