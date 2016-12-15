@@ -73,6 +73,7 @@ import com.google.bitcoin.core.ECKey;
 import com.google.bitcoin.core.Transaction;
 import com.google.bitcoin.core.Wallet;
 
+import de.schildbach.wallet.BitidIntent;
 import de.schildbach.wallet.Configuration;
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.PaymentIntent;
@@ -163,6 +164,11 @@ public final class WalletActivity extends AbstractOnDemandServiceActivity
 					processDirectTransaction(transaction);
 				}
 
+                @Override
+                protected void handleBitidIntent(BitidIntent bitidIntent) {
+                    throw new UnsupportedOperationException();
+                }
+                
 				@Override
 				protected void error(final int messageResId, final Object... messageArgs)
 				{
@@ -193,6 +199,11 @@ public final class WalletActivity extends AbstractOnDemandServiceActivity
 					processDirectTransaction(tx);
 				}
 
+                @Override
+                protected void handleBitidIntent(BitidIntent bitidIntent) {
+                    BitidActivity.start(WalletActivity.this, bitidIntent);
+                }
+                
 				@Override
 				protected void error(final int messageResId, final Object... messageArgs)
 				{

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="RequiredSize" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/list_entry_padding_horizontal_lax"
+        android:layout_marginRight="@dimen/list_entry_padding_horizontal_lax"
+        android:layout_marginTop="18dp"
+        android:gravity="center"
+        android:text="@string/bitid_fragment_auth_request_title"
+        android:textColor="#000"
+        android:textSize="@dimen/font_size_large"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/list_entry_padding_horizontal_lax"
+        android:layout_marginRight="@dimen/list_entry_padding_horizontal_lax"
+        android:layout_marginTop="8dp"
+        android:text="@string/bitid_fragment_auth_summary"
+        android:textColor="@color/fg_less_significant"
+        android:textSize="@dimen/font_size_normal"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/bitid_host"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/list_entry_padding_horizontal_lax"
+        android:layout_marginRight="@dimen/list_entry_padding_horizontal_lax"
+        android:layout_marginTop="8dp"
+        android:singleLine="true"
+        android:textColor="@color/fg_significant"
+        android:textSize="@dimen/font_size_normal" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/list_entry_padding_horizontal_lax"
+        android:layout_marginRight="@dimen/list_entry_padding_horizontal_lax"
+        android:layout_marginTop="8dp"
+        android:text="@string/bitid_fragment_auth_address"
+        android:textColor="@color/fg_less_significant"
+        android:textSize="@dimen/font_size_normal"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/bitid_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/list_entry_padding_horizontal_lax"
+        android:layout_marginRight="@dimen/list_entry_padding_horizontal_lax"
+        android:layout_marginTop="8dp"
+        android:singleLine="true"
+        android:textColor="@color/fg_significant"
+        android:textSize="@dimen/font_size_normal" />
+
+    <!-- stretch dummy -->
+
+    <ImageView
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:layout_weight="1" />
+
+    <include layout="@layout/send_coins_buttons_include" />
+
+</LinearLayout>
