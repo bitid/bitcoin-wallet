@@ -84,6 +84,12 @@ public class Constants
 	public static final int MBTC_MAX_PRECISION = 5;
 	public static final int UBTC_MAX_PRECISION = 2;
 	public static final int LOCAL_PRECISION = 4;
+	
+	public static final String BITID_PARAM_NONCE = "x";
+	public static final String BITID_PARAM_UNSECURE= "u";
+	public static final String BITID_PARAM_ADDRESS = "address";
+	public static final String BITID_PARAM_SIGNATURE = "signature";
+	public static final String BITID_PARAM_URI = "uri";
 
 	public static final String DONATION_ADDRESS = "18CK5k1gajRKKSC7yVSTXT9LUzbheh1XY4";
 	public static final String REPORT_EMAIL = "wallet@schildbach.de";

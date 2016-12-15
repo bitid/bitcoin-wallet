@@ -35,6 +35,7 @@ import android.os.Looper;
 import com.google.bitcoin.core.Transaction;
 import com.google.bitcoin.protocols.payments.PaymentProtocol;
 
+import de.schildbach.wallet.BitidIntent;
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.PaymentIntent;
 import de.schildbach.wallet_test.R;
@@ -128,6 +129,11 @@ public abstract class RequestPaymentRequestTask
 									throw new UnsupportedOperationException();
 
 								}
+
+                                @Override
+                                protected void handleBitidIntent(BitidIntent bitidIntent) {
+                                    throw new UnsupportedOperationException();
+                                }
 
 								@Override
 								protected void error(int messageResId, Object... messageArgs)

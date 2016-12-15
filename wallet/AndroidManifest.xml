@@ -120,6 +120,28 @@
 			</intent-filter>
 		</activity>
 		<activity
+			android:name="de.schildbach.wallet.ui.BitidActivity"
+			android:configChanges="keyboard|keyboardHidden"
+			android:label="@string/bitid_activity_title"
+			android:screenOrientation="behind"
+			android:windowSoftInputMode="adjustResize" >
+			<intent-filter android:label="@string/bitid_activity_title" >
+				<action android:name="android.intent.action.VIEW" />
+
+				<data android:scheme="bitid" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+			</intent-filter>
+			<intent-filter android:label="@string/bitid_activity_title" >
+				<action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+				<data android:scheme="bitid" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity
 			android:name="de.schildbach.wallet.ui.SendCoinsQrActivity"
 			android:configChanges="keyboard|keyboardHidden"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar" >

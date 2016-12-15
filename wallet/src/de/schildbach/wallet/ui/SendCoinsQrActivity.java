@@ -25,6 +25,7 @@ import android.os.Bundle;
 
 import com.google.bitcoin.core.Transaction;
 
+import de.schildbach.wallet.BitidIntent;
 import de.schildbach.wallet.PaymentIntent;
 import de.schildbach.wallet.ui.InputParser.StringInputParser;
 
@@ -67,6 +68,13 @@ public final class SendCoinsQrActivity extends AbstractOnDemandServiceActivity
 
 					SendCoinsQrActivity.this.finish();
 				}
+
+                @Override
+                protected void handleBitidIntent(BitidIntent bitidIntent) {
+                    BitidActivity.start(SendCoinsQrActivity.this, bitidIntent);
+                    
+                    SendCoinsQrActivity.this.finish();
+                }
 
 				@Override
 				protected void error(final int messageResId, final Object... messageArgs)

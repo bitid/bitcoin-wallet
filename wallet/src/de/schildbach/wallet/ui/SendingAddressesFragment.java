@@ -50,6 +50,7 @@ import com.google.bitcoin.core.Transaction;
 import com.google.bitcoin.uri.BitcoinURI;
 
 import de.schildbach.wallet.AddressBookProvider;
+import de.schildbach.wallet.BitidIntent;
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.PaymentIntent;
 import de.schildbach.wallet.ui.InputParser.StringInputParser;
@@ -160,6 +161,11 @@ public final class SendingAddressesFragment extends SherlockListFragment impleme
 					cannotClassify(input);
 				}
 
+                @Override
+                protected void handleBitidIntent(BitidIntent bitidIntent) {
+                    BitidActivity.start(activity, bitidIntent);
+                }
+                
 				@Override
 				protected void error(final int messageResId, final Object... messageArgs)
 				{
@@ -222,6 +228,11 @@ public final class SendingAddressesFragment extends SherlockListFragment impleme
 					cannotClassify(input);
 				}
 
+                @Override
+                protected void handleBitidIntent(BitidIntent bitidIntent) {
+                    BitidActivity.start(activity, bitidIntent);
+                }
+                
 				@Override
 				protected void error(final int messageResId, final Object... messageArgs)
 				{
